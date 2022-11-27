@@ -15,7 +15,7 @@ export default function IndexLayout() {
         {stage === Stage.Login ? (
           <LoginBox setStage={setStage} />
         ) : stage === Stage.Register ? (
-          <RegisterBox />
+          <RegisterBox setStage={setStage} />
         ) : (
           <></>
         )}
