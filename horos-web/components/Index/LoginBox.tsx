@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch } from "react";
+import { SetStateAction, Dispatch, useState, useEffect } from "react";
 import { Stage } from "../../interfaces/indexInterface";
 
 interface loginProps {
@@ -7,16 +7,31 @@ interface loginProps {
 
 export default function LoginBox(props: loginProps) {
   const { setStage } = props;
+  const [id, setId] = useState("");
+  const [pwd, setPwd] = useState("");
+
   return (
     <div className="container">
       <ul>
         <li>
           <label htmlFor="id">ID</label>
-          <input type="text" id="id" />
+          <input
+            type="text"
+            id="id"
+            placeholder="아이디를 입력해주세요."
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
         </li>
         <li>
           <label htmlFor="pwd">Password</label>
-          <input type="password" id="pwd" />
+          <input
+            type="password"
+            id="pwd"
+            placeholder="비밀번호를 입력해주세요."
+            value={pwd}
+            onChange={(e) => setPwd(e.target.value)}
+          />
         </li>
       </ul>
       <ul className="policy">
