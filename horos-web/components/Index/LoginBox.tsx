@@ -1,5 +1,6 @@
-import { SetStateAction, Dispatch, useState, useEffect } from "react";
+import { SetStateAction, Dispatch, useState } from "react";
 import { Stage } from "../../interfaces/indexInterface";
+import Router from "next/router";
 
 interface loginProps {
   setStage: Dispatch<SetStateAction<Stage>>;
@@ -9,6 +10,12 @@ export default function LoginBox(props: loginProps) {
   const { setStage } = props;
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
+  const [uid, setUid] = useState(0); //고유 uid
+  const router = Router;
+
+  const moveToWorkspace = () => {
+    router.push(`/workspace/${uid}`);
+  };
 
   return (
     <div className="container">
@@ -44,7 +51,7 @@ export default function LoginBox(props: loginProps) {
       </ul>
       <ul>
         <li>
-          <button>
+          <button onClick={moveToWorkspace}>
             <span>Login</span>
           </button>
         </li>
