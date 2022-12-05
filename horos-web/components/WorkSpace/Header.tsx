@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import BasicModal from "../BasicModal";
 import UploadModal from "./UploadModal";
+import { useRecoilState } from "recoil";
+import { recoilNumberState } from "../../states/recoilNumberState";
 
 enum Menu {
   AllVideo = "내 동영상",
@@ -20,9 +22,9 @@ interface headerProps {
 
 export default function Header(props: headerProps) {
   const { category, setCategory } = props;
-  const [nums, setNums] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [vNum, setVNums] = useRecoilState(recoilNumberState);
 
   return (
     <ul className="container">
@@ -30,7 +32,7 @@ export default function Header(props: headerProps) {
         <span className="title">내 워크스페이스</span>
         <div className="subtitle-box">
           <span className="subtitle">
-            {category} {nums}개
+            {category} {vNum}개
           </span>
           <div className="icon-box" onClick={() => setModalOpen(true)}>
             <Image src={icon} width={20} height={20} alt="icon" />
@@ -157,6 +159,8 @@ export default function Header(props: headerProps) {
           right: ${menuOpen ? "0px" : "-500px"};
           transition: all 0.5s;
           white-space: pre-line;
+          z-index: 99999999;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         }
         .menu-play-btn {
           cursor: pointer;
