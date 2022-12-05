@@ -4,6 +4,8 @@ import icon from "../../res/file-icon.svg";
 import hamburger from "../../res/hamburger.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import BasicModal from "../BasicModal";
+import UploadModal from "./UploadModal";
 
 enum Menu {
   AllVideo = "내 동영상",
@@ -20,6 +22,7 @@ export default function Header(props: headerProps) {
   const { category, setCategory } = props;
   const [nums, setNums] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <ul className="container">
@@ -29,7 +32,7 @@ export default function Header(props: headerProps) {
           <span className="subtitle">
             {category} {nums}개
           </span>
-          <div className="icon-box">
+          <div className="icon-box" onClick={() => setModalOpen(true)}>
             <Image src={icon} width={20} height={20} alt="icon" />
           </div>
         </div>
@@ -80,6 +83,13 @@ export default function Header(props: headerProps) {
           </li>
         </ul>
       </div>
+      <BasicModal
+        open={modalOpen}
+        close={() => setModalOpen(false)}
+        header={"동영상 업로드"}
+      >
+        <UploadModal />
+      </BasicModal>
       <style jsx>{`
         ul:not(.menu-list) {
           width: 92%;

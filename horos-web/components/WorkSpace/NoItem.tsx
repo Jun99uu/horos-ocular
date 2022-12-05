@@ -1,7 +1,11 @@
 import Image from "next/image";
 import empty from "../../res/empty.svg";
+import BasicModal from "../BasicModal";
+import { useState } from "react";
+import UploadModal from "./UploadModal";
 
 export default function NoItem() {
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <div className="container">
       <div className="img-box">
@@ -10,7 +14,14 @@ export default function NoItem() {
       <span>
         {"업로드된 데이터를 찾지 못했어요.\n먼저 데이터를 업로드해주세요!"}
       </span>
-      <button>동영상 업로드</button>
+      <button onClick={() => setModalOpen(true)}>동영상 업로드</button>
+      <BasicModal
+        open={modalOpen}
+        close={() => setModalOpen(false)}
+        header={"동영상 업로드"}
+      >
+        <UploadModal />
+      </BasicModal>
       <style jsx>{`
         .container {
           display: flex;
