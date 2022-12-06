@@ -117,7 +117,7 @@ export default function VideoIndexingLayout(props: bubbleProps) {
           scroll-behavior: smooth;
         }
         .upper-box::-webkit-scrollbar {
-          height: 2px;
+          height: 5px;
           border-radius: 500px;
         }
         .upper-box::-webkit-scrollbar-thumb {
