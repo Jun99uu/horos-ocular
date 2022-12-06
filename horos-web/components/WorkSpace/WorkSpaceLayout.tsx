@@ -5,8 +5,20 @@ import VideoItem from "./VideoItem";
 import { useRecoilState } from "recoil";
 import { recoilNumberState } from "../../states/recoilNumberState";
 
-export default function WorkSpaceLayout() {
+enum Menu {
+  AllVideo = "내 동영상",
+  Completed = "분석이 완료된 동영상",
+  Waiting = "분석 중인 동영상",
+}
+
+interface layoutProps {
+  category: Menu;
+}
+
+export default function WorkSpaceLayout(props: layoutProps) {
+  const { category } = props;
   const [items, setItems] = useState<Array<Video>>([]);
+  const [filteredItems, setFilteredItems] = useState<Array<Video>>([]);
   const [vNum, setVNums] = useRecoilState(recoilNumberState);
 
   const getItems = () => {
@@ -55,11 +67,27 @@ export default function WorkSpaceLayout() {
     getItems();
   }, []);
 
+  useEffect(() => {
+    switch (category) {
+      case Menu.AllVideo:
+        setFilteredItems(items);
+        break;
+      case Menu.Completed:
+        setFilteredItems(items.filter((item) => item.complete === 1));
+        break;
+      case Menu.Waiting:
+        setFilteredItems(items.filter((item) => item.complete === 0));
+        break;
+      default:
+        break;
+    }
+  }, [items, category]);
+
   return (
     <div className="container">
-      {items.length > 0 ? (
+      {filteredItems.length > 0 ? (
         <div className="video-layout">
-          {items.map((item, index) => (
+          {filteredItems.map((item, index) => (
             <VideoItem item={item} key={item.id} />
           ))}
         </div>

@@ -14,7 +14,7 @@ export default function WorkSpace() {
   return (
     <div className="container">
       <Header category={category} setCategory={setCategory} />
-      <WorkSpaceLayout />
+      <WorkSpaceLayout category={category} />
       <style jsx>{`
         .container {
           width: 100%;
