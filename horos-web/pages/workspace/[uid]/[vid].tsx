@@ -5,19 +5,18 @@ import { Video } from "./../../../interfaces/workspaceInterface";
 
 interface serverSideProps {
   params: number;
+  title: string;
+  date: string;
+  completed: boolean;
+  url: string;
 }
 
 export default function VideoSpace(props: serverSideProps) {
-  const { params } = props;
+  const { params, title, date, completed, url } = props;
   return (
     <div className="container">
-      <Header
-        title={"bibi.mp4"}
-        date={`2022-12-06`}
-        completed={true}
-        uid={params}
-      />
-      <VideoSpaceLayout />
+      <Header title={title} date={date} completed={completed} uid={params} />
+      {url && url !== "" ? <VideoSpaceLayout url={url} /> : <></>}
       <style jsx>{`
         .container {
           width: 100%;
@@ -39,9 +38,17 @@ export default function VideoSpace(props: serverSideProps) {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
     const { uid, vid } = query;
-    return { props: { params: Number(uid) } };
+    return {
+      props: {
+        params: Number(uid),
+        title: "bibi.mp4",
+        date: "2022.12.06",
+        completed: true,
+        url: "https://horosocular.s3.ap-northeast-1.amazonaws.com/bibi.mp4",
+      },
+    };
   } catch (err) {
     console.log(err);
-    return { props: { params: "null" } };
+    return { props: {} };
   }
 };
