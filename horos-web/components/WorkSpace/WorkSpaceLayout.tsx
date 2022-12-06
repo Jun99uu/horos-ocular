@@ -69,12 +69,13 @@ export default function WorkSpaceLayout() {
       <style jsx>{`
         .container {
           width: 100%;
+          padding-bottom: 60px;
         }
         .video-layout {
           padding: 0px 50px 50px 50px;
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
-          grid-gap: 40px;
+          grid-gap: 60px;
         }
 
         @media screen and (max-width: 900px) {
