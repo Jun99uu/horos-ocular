@@ -1,4 +1,4 @@
-# 📺 HOROSO OCLAUR
+# 📺 HOROS OCLAUR
 
 > AI 기반 동영상 분석 솔루션
 
