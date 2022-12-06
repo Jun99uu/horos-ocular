@@ -16,7 +16,7 @@ export default function VideoSpace(props: serverSideProps) {
   return (
     <div className="container">
       <Header title={title} date={date} completed={completed} uid={params} />
-      {url && url !== "" ? <VideoSpaceLayout url={url} /> : <></>}
+      <VideoSpaceLayout url={url} />
       <style jsx>{`
         .container {
           width: 100%;

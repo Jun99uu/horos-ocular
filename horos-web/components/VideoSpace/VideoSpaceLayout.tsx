@@ -1,5 +1,6 @@
 import ReactPlayer from "react-player";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import BubbleCarousel from "./VideoIndexing/BubbleCarousel";
 
 interface videoProps {
   url: string;
@@ -11,15 +12,35 @@ enum Stage {
   Speech,
 }
 
+const titles = [
+  "Video Indexing",
+  "Video Search by face",
+  "Video Search by speech",
+];
+const subtitles = [
+  "영상에 등장하는 인물들의 인덱스예요.",
+  "검색하고 싶은 인물의 이미지를 입력해주세요.",
+  "검색하고싶은 음성이나 텍스트를 입력해주세요.",
+];
+
 export default function VideoSpaceLayout(props: videoProps) {
   const { url } = props;
   const [stage, setStage] = useState<Stage>(Stage.Indexing);
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
 
   return (
     <div className="container">
       <div className="upper-box">
         <div className="player-wrapper">
-          <ReactPlayer url={url} controls width="100%" height="100%" />
+          {domLoaded ? (
+            <ReactPlayer url={url} controls width="100%" height="100%" />
+          ) : (
+            <></>
+          )}
         </div>
         <ul className="menu-list">
           <li className="menu-title">원하는 분석 기능을 클릭해주세요!</li>
@@ -46,6 +67,23 @@ export default function VideoSpaceLayout(props: videoProps) {
           </li>
         </ul>
       </div>
+      <div className="bottom-box">
+        <div className="bottom-title-box">
+          <span className="bottom-title">{titles[stage]}</span>
+          <span className="bottom-subtitle">{subtitles[stage]}</span>
+        </div>
+        <div className="bottom-content-box">
+          {stage === Stage.Indexing ? (
+            <BubbleCarousel />
+          ) : stage === Stage.Search ? (
+            <></>
+          ) : stage === Stage.Speech ? (
+            <></>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
       <style jsx>{`
         .container {
           width: 100%;
@@ -53,6 +91,7 @@ export default function VideoSpaceLayout(props: videoProps) {
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
+          gap: 100px;
         }
         .upper-box {
           width: 100%;
@@ -101,6 +140,33 @@ export default function VideoSpaceLayout(props: videoProps) {
         .selected {
           border-left: 3px solid white;
           padding-left: 20px;
+        }
+        .bottom-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 30px;
+        }
+        .bottom-title-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 10px;
+          white-space: pre-line;
+          color: white;
+        }
+        .bottom-title {
+          font-size: 24px;
+          font-weight: 700;
+        }
+        .bottom-subtitle {
+          font-size: 16px;
+          font-weight: 300;
+        }
+        .bottom-content-box {
+          width: 100%;
         }
       `}</style>
     </div>
