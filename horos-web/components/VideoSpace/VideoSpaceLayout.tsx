@@ -1,6 +1,7 @@
 import ReactPlayer from "react-player";
 import { useState, useEffect } from "react";
-import BubbleCarousel from "./VideoIndexing/BubbleCarousel";
+import VideoIndexingLayout from "./VideoIndexing/VideoIndexingLayout";
+import { Index } from "../../interfaces/videoIndexInterface";
 
 interface videoProps {
   url: string;
@@ -26,10 +27,61 @@ const subtitles = [
 export default function VideoSpaceLayout(props: videoProps) {
   const { url } = props;
   const [stage, setStage] = useState<Stage>(Stage.Indexing);
+  const [indexs, setIndexs] = useState<Array<Index>>([]);
   const [domLoaded, setDomLoaded] = useState(false);
+
+  const getIndexs = () => {
+    const tmp1: Index = {
+      cluster: 0,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://i.pinimg.com/564x/e1/bd/3a/e1bd3a590cc5467158e22ff39dfaf5b1.jpg",
+    };
+
+    const tmp2: Index = {
+      cluster: 1,
+      continuous_time: [
+        { start: 2, end: 4.5 },
+        { start: 6, end: 8.5 },
+        { start: 7, end: 9.5 },
+      ],
+      face: "https://i.pinimg.com/564x/0f/c3/fd/0fc3fdecefdb298b9aef97bcb87e7159.jpg",
+    };
+
+    const tmp3: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://i.pinimg.com/564x/f9/3c/39/f93c39b72289c83da16493f65ff9c154.jpg",
+    };
+
+    const tmps = [
+      tmp1,
+      tmp2,
+      tmp3,
+      tmp1,
+      tmp2,
+      tmp3,
+      tmp1,
+      tmp2,
+      tmp3,
+      tmp1,
+      tmp2,
+      tmp3,
+    ];
+
+    setIndexs(tmps);
+  };
 
   useEffect(() => {
     setDomLoaded(true);
+    getIndexs();
   }, []);
 
   return (
@@ -74,7 +126,7 @@ export default function VideoSpaceLayout(props: videoProps) {
         </div>
         <div className="bottom-content-box">
           {stage === Stage.Indexing ? (
-            <BubbleCarousel />
+            <VideoIndexingLayout items={indexs} url={url} />
           ) : stage === Stage.Search ? (
             <></>
           ) : stage === Stage.Speech ? (
@@ -92,6 +144,7 @@ export default function VideoSpaceLayout(props: videoProps) {
           align-items: center;
           justify-content: flex-start;
           gap: 100px;
+          padding-bottom: 100px;
         }
         .upper-box {
           width: 100%;
