@@ -6,6 +6,7 @@ import {
   faCircleCheck,
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import Router from "next/router";
 
 interface itemProps {
   item: Video;
@@ -14,6 +15,8 @@ interface itemProps {
 export default function VideoItem(props: itemProps) {
   const { item } = props;
   const [completed, setCompleted] = useState(false);
+  const router = Router;
+  const path = location.pathname;
 
   useEffect(() => {
     setCompleted(item.complete === 0 ? false : true);
@@ -22,7 +25,10 @@ export default function VideoItem(props: itemProps) {
   return (
     <div className="container">
       <ReactPlayer url={item.url} controls width="100%" height="100%" />
-      <div className="info-box">
+      <div
+        className="info-box"
+        onClick={() => router.push(`${path}/${item.id}`)}
+      >
         <div className={completed ? "end" : "batch"}>
           <FontAwesomeIcon icon={completed ? faCircleCheck : faCircleXmark} />
           <span>{completed ? "분석 완료" : "분석 중"}</span>
@@ -37,6 +43,8 @@ export default function VideoItem(props: itemProps) {
           position: relative;
           border-radius: 10px;
           overflow: hidden;
+          box-shadow: rgba(183, 183, 183, 0.02) 0px 1px 3px 0px,
+            rgba(226, 226, 226, 0.15) 0px 0px 0px 1px;
         }
         .info-box {
           width: 100%;
@@ -50,6 +58,7 @@ export default function VideoItem(props: itemProps) {
           align-items: flex-end;
           padding: 20px;
           gap: 5px;
+          cursor: pointer;
         }
         .end,
         .batch {
