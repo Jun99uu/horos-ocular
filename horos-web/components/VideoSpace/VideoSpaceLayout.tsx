@@ -2,6 +2,7 @@ import ReactPlayer from "react-player";
 import { useState, useEffect } from "react";
 import VideoIndexingLayout from "./VideoIndexing/VideoIndexingLayout";
 import { Index } from "../../interfaces/videoIndexInterface";
+import FaceSearchLayout from "./FacdSearching/FaceSearchingLayout";
 
 interface videoProps {
   url: string;
@@ -65,15 +66,15 @@ export default function VideoSpaceLayout(props: videoProps) {
       tmp1,
       tmp2,
       tmp3,
-      tmp1,
-      tmp2,
-      tmp3,
-      tmp1,
-      tmp2,
-      tmp3,
-      tmp1,
-      tmp2,
-      tmp3,
+      // tmp1,
+      // tmp2,
+      // tmp3,
+      // tmp1,
+      // tmp2,
+      // tmp3,
+      // tmp1,
+      // tmp2,
+      // tmp3,
     ];
 
     setIndexs(tmps);
@@ -128,7 +129,7 @@ export default function VideoSpaceLayout(props: videoProps) {
           {stage === Stage.Indexing ? (
             <VideoIndexingLayout items={indexs} url={url} />
           ) : stage === Stage.Search ? (
-            <></>
+            <FaceSearchLayout url={url} />
           ) : stage === Stage.Speech ? (
             <></>
           ) : (
