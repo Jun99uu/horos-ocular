@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import { calMoment } from "../../calMoment";
 
 interface bubbleProps {
   url: string;
@@ -16,16 +17,6 @@ export default function VideoIndexingLayout(props: bubbleProps) {
   const [timeStamp, setTimeStamp] = useState(0); //타임스탬프 인덱스
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(0);
-
-  const calMoment = (moment: number) => {
-    if (moment < 60) {
-      return `${moment}초`;
-    } else {
-      const min = moment / 60;
-      const sec = moment - 60 * min;
-      return `${min}분 ${sec}초`;
-    }
-  };
 
   useEffect(() => {
     if (ind) {
@@ -44,22 +35,24 @@ export default function VideoIndexingLayout(props: bubbleProps) {
 
   return (
     <div className="container">
-      <div className="upper-box">
-        {items.map((item, index) => (
-          <div className="item-inner" key={item.cluster}>
-            <div
-              className={`img-box ${ind === index ? "selected" : "non"}`}
-              onClick={() => setInd(index)}
-            >
-              <Image
-                src={item.face}
-                alt={`${item.cluster}`}
-                layout="fill"
-                objectFit="cover"
-              />
+      <div className="upper-wrapper">
+        <div className="upper-box">
+          {items.map((item, index) => (
+            <div className="item-inner" key={item.cluster}>
+              <div
+                className={`img-box ${ind === index ? "selected" : "non"}`}
+                onClick={() => setInd(index)}
+              >
+                <Image
+                  src={item.face}
+                  alt={`${item.cluster}`}
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <div className="bubble-layout">
         {typeof ind !== "undefined" ? (
@@ -103,8 +96,14 @@ export default function VideoIndexingLayout(props: bubbleProps) {
           justify-content: flex-start;
           gap: 50px;
         }
-        .upper-box {
+        .upper-wrapper {
           width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+        .upper-box {
+          width: auto;
+          max-width: 100%;
           display: flex;
           flex-wrap: nowrap;
           flex-direction: row;
