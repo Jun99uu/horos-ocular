@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Stage } from "../../interfaces/indexInterface";
+import axios from "axios";
 
 interface registerProps {
   setStage: Dispatch<SetStateAction<Stage>>;
@@ -10,9 +11,55 @@ export default function RegisterBox(props: registerProps) {
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [pwdc, setPwdc] = useState("");
+  const [pwde, setPwde] = useState(false);
   const [name, setName] = useState("");
   const [privacy, setPrivacy] = useState(false);
   const [use, setUse] = useState(false);
+
+  const passwordCheck = () => {
+    if (pwd === pwdc) setPwde(true);
+    else setPwde(false);
+  };
+
+  const allPassCheck = () => {
+    if (
+      id !== "" &&
+      pwd !== "" &&
+      pwdc !== "" &&
+      name !== "" &&
+      pwde &&
+      privacy &&
+      use
+    ) {
+      //회원가입 진행
+      axios
+        .post(
+          "https://4d06-49-142-50-117.ngrok.io/accounts/signup",
+          {
+            email: id,
+            password1: pwd,
+            password2: pwdc,
+            name: name,
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          alert("회원가입이 완료되었습니다.");
+          setStage(Stage.Login);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    } else {
+      alert("모든 정보를 올바르게 입력해주세요.");
+    }
+  };
+
   return (
     <div className="container">
       <ul>

@@ -1,6 +1,7 @@
 import { SetStateAction, Dispatch, useState } from "react";
 import { Stage } from "../../interfaces/indexInterface";
 import Router from "next/router";
+import axios from "axios";
 
 interface loginProps {
   setStage: Dispatch<SetStateAction<Stage>>;
@@ -15,6 +16,30 @@ export default function LoginBox(props: loginProps) {
 
   const moveToWorkspace = () => {
     router.push(`/workspace/${uid}`);
+  };
+
+  const loginHandler = () => {
+    axios
+      .post(
+        "https://4d06-49-142-50-117.ngrok.io/accounts/login",
+        {
+          email: id,
+          password1: pwd,
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        localStorage.setItem("jwt", res.data.access_token);
+        moveToWorkspace();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -51,7 +76,7 @@ export default function LoginBox(props: loginProps) {
       </ul>
       <ul>
         <li>
-          <button onClick={moveToWorkspace}>
+          <button onClick={loginHandler}>
             <span>Login</span>
           </button>
         </li>
