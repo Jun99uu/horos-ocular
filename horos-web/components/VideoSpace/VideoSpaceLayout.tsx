@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import VideoIndexingLayout from "./VideoIndexing/VideoIndexingLayout";
 import { Index } from "../../interfaces/videoIndexInterface";
 import FaceSearchLayout from "./FacdSearching/FaceSearchingLayout";
+import SpeechSearchLayout from "./SpeechSearching/SpeechSearchLayout";
 
 interface videoProps {
   url: string;
@@ -131,7 +132,7 @@ export default function VideoSpaceLayout(props: videoProps) {
           ) : stage === Stage.Search ? (
             <FaceSearchLayout url={url} />
           ) : stage === Stage.Speech ? (
-            <></>
+            <SpeechSearchLayout url={url} />
           ) : (
             <></>
           )}
