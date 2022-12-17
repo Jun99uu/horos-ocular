@@ -34,9 +34,11 @@ export default function SpeechSearchLayout(props: sttProps) {
       </div>
       <div className="result-box">
         {result && result.length > 0 ? (
-          <ResultBox url={url} token={token} items={result} />
+          <ResultBox url={url} items={result} />
         ) : (
-          <></>
+          <span className="no-result">
+            결과가 존재하지 않습니다. 단어 단위로 검색해주세요.
+          </span>
         )}
       </div>
       <style jsx>{`
@@ -83,6 +85,15 @@ export default function SpeechSearchLayout(props: sttProps) {
           font-weight: 900;
           border-radius: 10px;
           cursor: pointer;
+        }
+        .result-box {
+          width: 70%;
+        }
+        .no-result {
+          font-size: 14px;
+          font-weight: 300;
+          color: white;
+          padding: 0px 0px 0px 50px;
         }
       `}</style>
     </div>
