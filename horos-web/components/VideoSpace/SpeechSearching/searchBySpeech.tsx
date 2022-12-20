@@ -1,33 +1,37 @@
 import { Dispatch, SetStateAction } from "react";
 import { SpeechInfo, Alternative } from "../../../interfaces/speechInterface";
 import axios from "axios";
+import { base_url } from "../../../res/baseurl";
+import { dummyData } from "../../../res/dummyStt";
 
 const tmpItem: SpeechInfo = {
   _id: "id",
   data: {
     items: [
       {
-        alternatives: [{ confidence: "0.9894", content: "사랑" }],
-        end_time: "5.0",
-        start_time: "2",
+        alternatives: [
+          { confidence: "0.9894", content: "아무리 고민을 해봐도 난" },
+        ],
+        end_time: "123",
+        start_time: "119",
         type: "pronunciation",
       },
       {
-        alternatives: [{ confidence: "0.9894", content: "말입니다." }],
-        end_time: "6",
-        start_time: "5",
+        alternatives: [{ confidence: "0.9742", content: "숨쉬는 법을 잊은듯" }],
+        end_time: "99.5",
+        start_time: "97",
         type: "pronunciation",
       },
       {
-        alternatives: [{ confidence: "0.9894", content: "대중" }],
-        end_time: "7",
-        start_time: "6",
+        alternatives: [{ confidence: "0.9951", content: "숨쉬는 법을 잊은듯" }],
+        end_time: "45.3",
+        start_time: "43",
         type: "pronunciation",
       },
       {
-        alternatives: [{ confidence: "0.9894", content: "없습니다." }],
-        end_time: "9",
-        start_time: "8",
+        alternatives: [{ confidence: "0.9894", content: "숨쉬는 법을 잊은듯" }],
+        end_time: "146.3",
+        start_time: "144.3",
         type: "pronunciation",
       },
       {
@@ -73,14 +77,37 @@ const tmpItem: SpeechInfo = {
 export const getStt = (
   setResult: Dispatch<SetStateAction<Array<Alternative> | undefined>>,
   token: string,
-  setLoading: Dispatch<SetStateAction<boolean>>
+  setLoading: Dispatch<SetStateAction<boolean>>,
+  vid: number
 ) => {
   setLoading(true);
 
-  //콜백으로 전문 받아오기 -> 검색 순으로 진행. 검색 함수 search()
-  setResult(search(tmpItem.data.items, token));
+  // axios
+  //   .get(`${base_url}/horus/video/stt?vid=${vid}`, {
+  //     headers: {
+  //       "Content-type": "application/json",
+  //       Accept: "application/json",
+  //       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  //     },
+  //   })
+  //   .then((res) => {
+  //     setResult(search(res.data.data.items, token));
+  //     setLoading(false);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  try {
+    setResult(search(tmpItem.data.items, token));
+    setLoading(false);
+  } catch {
+    console.log("Err");
+  }
 
-  setLoading(false); //통신성공시 로딩 끝!
+  //콜백으로 전문 받아오기 -> 검색 순으로 진행. 검색 함수 search()
+  // setResult(search(tmpItem.data.items, token));
+
+  // setLoading(false); //통신성공시 로딩 끝!
 };
 
 const search = (fullSubtitle: Array<Alternative>, token: string) => {

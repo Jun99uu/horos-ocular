@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Stage } from "../../interfaces/indexInterface";
 import axios from "axios";
+import { base_url } from "../../res/baseurl";
 
 interface registerProps {
   setStage: Dispatch<SetStateAction<Stage>>;
@@ -34,7 +35,7 @@ export default function RegisterBox(props: registerProps) {
       //회원가입 진행
       axios
         .post(
-          "https://4d06-49-142-50-117.ngrok.io/accounts/signup",
+          `${base_url}/accounts/signup`,
           {
             email: id,
             password1: pwd,
@@ -59,6 +60,10 @@ export default function RegisterBox(props: registerProps) {
       alert("모든 정보를 올바르게 입력해주세요.");
     }
   };
+
+  useEffect(() => {
+    passwordCheck();
+  }, [pwd, pwdc]);
 
   return (
     <div className="container">
@@ -101,7 +106,7 @@ export default function RegisterBox(props: registerProps) {
         </li>
         <li>
           <label htmlFor="name" className="label-bold">
-            ID
+            이름
           </label>
           <input
             type="text"
@@ -138,7 +143,7 @@ export default function RegisterBox(props: registerProps) {
       </ul>
       <ul className="policy">
         <li>
-          <button>
+          <button onClick={() => allPassCheck()}>
             <span>Sign Up</span>
           </button>
         </li>

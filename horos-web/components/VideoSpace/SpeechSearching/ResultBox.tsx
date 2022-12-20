@@ -84,6 +84,13 @@ export default function ResultBox(props: boxProps) {
           color: #242424;
           background-color: white;
         }
+        .lyrics-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
       `}</style>
     </div>
   );

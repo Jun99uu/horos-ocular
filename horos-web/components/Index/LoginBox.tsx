@@ -2,6 +2,7 @@ import { SetStateAction, Dispatch, useState } from "react";
 import { Stage } from "../../interfaces/indexInterface";
 import Router from "next/router";
 import axios from "axios";
+import { base_url } from "../../res/baseurl";
 
 interface loginProps {
   setStage: Dispatch<SetStateAction<Stage>>;
@@ -21,7 +22,7 @@ export default function LoginBox(props: loginProps) {
   const loginHandler = () => {
     axios
       .post(
-        "https://4d06-49-142-50-117.ngrok.io/accounts/login",
+        `${base_url}/accounts/login`,
         {
           email: id,
           password1: pwd,

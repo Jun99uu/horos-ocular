@@ -4,8 +4,10 @@ import VideoIndexingLayout from "./VideoIndexing/VideoIndexingLayout";
 import { Index } from "../../interfaces/videoIndexInterface";
 import FaceSearchLayout from "./FacdSearching/FaceSearchingLayout";
 import SpeechSearchLayout from "./SpeechSearching/SpeechSearchLayout";
+import axios from "axios";
 
 interface videoProps {
+  vid: number;
   url: string;
 }
 
@@ -27,7 +29,7 @@ const subtitles = [
 ];
 
 export default function VideoSpaceLayout(props: videoProps) {
-  const { url } = props;
+  const { url, vid } = props;
   const [stage, setStage] = useState<Stage>(Stage.Indexing);
   const [indexs, setIndexs] = useState<Array<Index>>([]);
   const [domLoaded, setDomLoaded] = useState(false);
@@ -40,7 +42,7 @@ export default function VideoSpaceLayout(props: videoProps) {
         { start: 2, end: 3.5 },
         { start: 4, end: 5.5 },
       ],
-      face: "https://i.pinimg.com/564x/e1/bd/3a/e1bd3a590cc5467158e22ff39dfaf5b1.jpg",
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%9D%80%EC%84%9C.png",
     };
 
     const tmp2: Index = {
@@ -50,7 +52,7 @@ export default function VideoSpaceLayout(props: videoProps) {
         { start: 6, end: 8.5 },
         { start: 7, end: 9.5 },
       ],
-      face: "https://i.pinimg.com/564x/0f/c3/fd/0fc3fdecefdb298b9aef97bcb87e7159.jpg",
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%97%B0%EC%A0%95.png",
     };
 
     const tmp3: Index = {
@@ -60,25 +62,101 @@ export default function VideoSpaceLayout(props: videoProps) {
         { start: 2, end: 3.5 },
         { start: 4, end: 5.5 },
       ],
-      face: "https://i.pinimg.com/564x/f9/3c/39/f93c39b72289c83da16493f65ff9c154.jpg",
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%97%AC%EB%A6%84.png",
     };
 
-    const tmps = [
-      tmp1,
-      tmp2,
-      tmp3,
-      // tmp1,
-      // tmp2,
-      // tmp3,
-      // tmp1,
-      // tmp2,
-      // tmp3,
-      // tmp1,
-      // tmp2,
-      // tmp3,
-    ];
+    const tmp4: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%97%91%EC%8B%9C.png",
+    };
+
+    const tmp5: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%88%98%EB%B9%88.png",
+    };
+
+    const tmp6: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 17.82, end: 24.2 },
+        { start: 44.8, end: 47 },
+        { start: 48, end: 49 },
+        { start: 75, end: 77 },
+        { start: 99, end: 101 },
+        { start: 145.5, end: 145.5 },
+        { start: 157, end: 158 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%84%A4%EC%95%84.png",
+    };
+
+    const tmp7: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EB%B3%B4%EB%82%98.png",
+    };
+
+    const tmp8: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EB%AD%90%EC%A7%80.png",
+    };
+
+    const tmp9: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EB%A3%A8%EB%8B%A4.png",
+    };
+
+    const tmp10: Index = {
+      cluster: 2,
+      continuous_time: [
+        { start: 0, end: 1.5 },
+        { start: 2, end: 3.5 },
+        { start: 4, end: 5.5 },
+      ],
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EB%8B%A4%EC%9B%90.png",
+    };
+
+    const tmps = [tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9, tmp10];
 
     setIndexs(tmps);
+
+    // axios
+    //   .get(`https://4a33-112-133-126-250.ngrok.io/horus/video/index?vid=${vid}`, {
+    //     headers: {
+    //       "Content-type": "application/json",
+    //       Accept: "application/json",
+    //       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     setIndexs(res.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   useEffect(() => {
@@ -130,9 +208,9 @@ export default function VideoSpaceLayout(props: videoProps) {
           {stage === Stage.Indexing ? (
             <VideoIndexingLayout items={indexs} url={url} />
           ) : stage === Stage.Search ? (
-            <FaceSearchLayout url={url} />
+            <FaceSearchLayout url={url} vid={vid} />
           ) : stage === Stage.Speech ? (
-            <SpeechSearchLayout url={url} />
+            <SpeechSearchLayout url={url} vid={vid} />
           ) : (
             <></>
           )}

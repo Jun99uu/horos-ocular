@@ -1,29 +1,21 @@
 import Image from "next/image";
 import empty from "../../res/empty.svg";
-import BasicModal from "../BasicModal";
-import { useState } from "react";
-import UploadModal from "./UploadModal";
+import Router from "next/router";
 
-export default function NoItem() {
-  const [modalOpen, setModalOpen] = useState(false);
+export default function NoLogined() {
+  const router = Router;
+
   return (
     <div className="container">
       <div className="img-box">
         <Image src={empty} width={283} height={236} alt="empty" />
       </div>
-      <span>
-        {"업로드된 데이터를 찾지 못했어요.\n먼저 데이터를 업로드해주세요!"}
-      </span>
-      <button onClick={() => setModalOpen(true)}>동영상 업로드</button>
-      <BasicModal
-        open={modalOpen}
-        close={() => setModalOpen(false)}
-        header={"동영상 업로드"}
-      >
-        <UploadModal />
-      </BasicModal>
+      <span>{"잘못된 접근입니다.\n먼저 로그인을 해주세요."}</span>
+      <button onClick={() => router.push("/")}>메인 화면으로</button>
       <style jsx>{`
         .container {
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;

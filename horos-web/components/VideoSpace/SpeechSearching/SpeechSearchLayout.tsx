@@ -6,16 +6,17 @@ import ResultBox from "./ResultBox";
 
 interface sttProps {
   url: string;
+  vid: number;
 }
 
 export default function SpeechSearchLayout(props: sttProps) {
-  const { url } = props;
+  const { url, vid } = props;
   const [token, setToken] = useState("");
   const [result, setResult] = useState<Array<Alternative>>();
   const [loading, setLoading] = useState(false);
 
   const onSearchButtonHandler = () => {
-    getStt(setResult, token, setLoading);
+    getStt(setResult, token, setLoading, vid);
   };
 
   return (

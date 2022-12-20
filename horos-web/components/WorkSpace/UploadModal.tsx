@@ -5,6 +5,8 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import ReactPlayer from "react-player";
+import axios from "axios";
+import { base_url } from "../../res/baseurl";
 
 type EventHandlers<T> = Omit<
   DOMAttributes<T>,
@@ -21,7 +23,11 @@ enum Stage {
   Youtube,
 }
 
-export default function UploadModal() {
+interface modalProps {
+  close: () => void;
+}
+export default function UploadModal(props: modalProps) {
+  const { close } = props;
   const [file, setFile] = useState<File>();
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [curFile, setCurFile] = useState("");
@@ -54,9 +60,30 @@ export default function UploadModal() {
     }
   };
 
+  const saveVideo = () => {
+    if (file) {
+      const multipartFile = new FormData();
+      multipartFile.append("video", file);
+
+      axios
+        .post(`${base_url}/horus/video/registration`, multipartFile, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        })
+        .then((res) => {
+          close();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   useEffect(() => {
     if (vSize) {
-      vSize > 10 ? setVCanUpload(false) : setVCanUpload(true);
+      vSize > 15 ? setVCanUpload(false) : setVCanUpload(true);
     }
   }, [vSize]);
 
@@ -127,7 +154,9 @@ export default function UploadModal() {
                   value={curFile}
                 />
                 {vCanUpload ? (
-                  <button className="save-btn">저장</button>
+                  <button className="save-btn" onClick={() => saveVideo()}>
+                    저장
+                  </button>
                 ) : (
                   <></>
                 )}

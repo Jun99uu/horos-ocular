@@ -18,10 +18,11 @@ enum Menu {
 interface headerProps {
   category: Menu;
   setCategory: Dispatch<SetStateAction<Menu>>;
+  name: string;
 }
 
 export default function Header(props: headerProps) {
-  const { category, setCategory } = props;
+  const { category, setCategory, name } = props;
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [vNum, setVNums] = useRecoilState(recoilNumberState);
@@ -29,7 +30,7 @@ export default function Header(props: headerProps) {
   return (
     <ul className="container">
       <li>
-        <span className="title">내 워크스페이스</span>
+        <span className="title">{name}님의 워크스페이스</span>
         <div className="subtitle-box">
           <span className="subtitle">
             {category} {vNum}개
@@ -90,7 +91,7 @@ export default function Header(props: headerProps) {
         close={() => setModalOpen(false)}
         header={"동영상 업로드"}
       >
-        <UploadModal />
+        <UploadModal close={() => setModalOpen(false)} />
       </BasicModal>
       <style jsx>{`
         ul:not(.menu-list) {

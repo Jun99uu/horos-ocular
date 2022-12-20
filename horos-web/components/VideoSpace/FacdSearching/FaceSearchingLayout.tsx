@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ImageUpload from "./ImageUpload";
 import AnalyzeResult from "./AnalyzeResult";
 import { Index } from "../../../interfaces/videoIndexInterface";
+import axios from "axios";
+import { base_url } from "../../../res/baseurl";
 
 enum Stage {
   Upload,
@@ -9,11 +11,12 @@ enum Stage {
 }
 
 interface faceSearchProps {
+  vid: number;
   url: string;
 }
 
 export default function FaceSearchLayout(props: faceSearchProps) {
-  const { url } = props;
+  const { url, vid } = props;
   const [stage, setStage] = useState(Stage.Upload);
   const [indexs, setIndexs] = useState<Index>();
   const [imgFile, setImgFile] = useState<File>();
@@ -24,35 +27,37 @@ export default function FaceSearchLayout(props: faceSearchProps) {
     const tmpIndex: Index = {
       cluster: 0,
       continuous_time: [
-        { start: 0, end: 1.5 },
-        { start: 2, end: 3.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 0, end: 1.5 },
-        { start: 2, end: 3.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
-        { start: 4, end: 5.5 },
+        { start: 17.82, end: 24.2 },
+        { start: 44.8, end: 47 },
+        { start: 48, end: 49 },
+        { start: 75, end: 77 },
+        { start: 99, end: 101 },
+        { start: 145.5, end: 145.5 },
+        { start: 157, end: 158 },
       ],
-      face: "https://i.pinimg.com/564x/e1/bd/3a/e1bd3a590cc5467158e22ff39dfaf5b1.jpg",
+      face: "https://horosocular.s3.ap-northeast-1.amazonaws.com/%EC%84%A4%EC%95%84.png",
     };
 
     setIndexs(tmpIndex);
+
+    // if (imgFile) {
+    //   const multipartFile = new FormData();
+    //   multipartFile.append("image", imgFile);
+    //   axios
+    //     .post(`${base_url}/horus/video/search?vid=${vid}`, multipartFile, {
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       setIndexs(res.data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }
   };
 
   useEffect(() => {

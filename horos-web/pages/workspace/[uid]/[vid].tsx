@@ -1,22 +1,68 @@
 import { GetServerSideProps } from "next";
 import VideoSpaceLayout from "../../../components/VideoSpace/VideoSpaceLayout";
 import Header from "../../../components/VideoSpace/Header";
-import { Video } from "./../../../interfaces/workspaceInterface";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { base_url } from "../../../res/baseurl";
 
-interface serverSideProps {
-  params: number;
-  title: string;
-  date: string;
-  completed: boolean;
-  url: string;
+interface serversideProps {
+  uid: string;
+  vid: string;
 }
 
-export default function VideoSpace(props: serverSideProps) {
-  const { params, title, date, completed, url } = props;
+interface Video {
+  vname: string;
+  url: string;
+  complete: number;
+}
+
+const tmpVideo:Video = {
+  vname:"unnatural",
+  url:"https://horosocular.s3.ap-northeast-1.amazonaws.com/unnatural.mp4",
+  complete:1
+}
+
+export default function VideoSpace(props: serversideProps) {
+  const { uid, vid } = props;
+
+  const [obj, setObj] = useState<Video>(tmpVideo);
+
+  // const getInfo = () => {
+  //   axios
+  //     .get(`${base_url}/horus/video/info?vid=${vid}`, {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setObj(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getInfo();
+  // }, []);
+
   return (
     <div className="container">
-      <Header title={title} date={date} completed={completed} uid={params} />
-      <VideoSpaceLayout url={url} />
+      {obj ? (
+        <>
+          <Header
+            title={obj.vname}
+            date={""}
+            completed={obj.complete === 0 ? false : true}
+            uid={Number(uid)}
+          />
+          <VideoSpaceLayout url={obj.url} vid={Number(vid)} />
+        </>
+      ) : (
+        <></>
+      )}
       <style jsx>{`
         .container {
           width: 100%;
@@ -40,11 +86,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const { uid, vid } = query;
     return {
       props: {
-        params: Number(uid),
-        title: "bibi.mp4",
-        date: "2022.12.06",
-        completed: true,
-        url: "https://horosocular.s3.ap-northeast-1.amazonaws.com/bibi.mp4",
+        uid: uid,
+        vid: vid,
       },
     };
   } catch (err) {
